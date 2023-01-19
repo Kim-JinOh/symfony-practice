@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,8 +22,11 @@ class AuthController extends AbstractController
     #[Route('/sign-up', name: 'sign-up')]
     public function signUp(): Response
     {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         return $this->render('auth/sign-up.html.twig', [
             'controller_name' => 'AuthController',
+            'form' => $form->createView()
         ]);
     }
 
