@@ -1,0 +1,1 @@
+import './mazer/scss/pages/auth.scss';
