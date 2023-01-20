@@ -9,21 +9,21 @@
 				</div>
 				<h1 class="auth-title">Sign Up</h1>
 				<p class="auth-subtitle mb-5">Input your data to register to our website.</p>
-				{{ form_start(form, {'attr': {'class': 'was-validated', 'oninput':'user[password][second].setCustomValidity(user[password][second].value != user[password][first].value ? "Passwords do not match." : "")'}}) }}
+				{{ form_start(form, {'attr': {'class': 'was-validated needs-validation'}}) }}
 				<div class="form-group position-relative has-icon-left mb-4">
-					{{form_widget(form.email, {'attr': {'class': 'form-control form-control-xl is-vaild', 'placeholder':'Email'}})}}
+					{{form_widget(form.email)}}
 					<div class="form-control-icon">
 						<i class="bi bi-envelope"></i>
 					</div>
 				</div>
 				<div class="form-group position-relative has-icon-left mb-4">
-					{{form_widget(form.password.first, {'attr': {'class': 'form-control form-control-xl', 'placeholder':'Password', 'aria-describedby': 'inputGroupPrepend'}})}}
+					{{form_widget(form.password.first)}}
 					<div class="form-control-icon">
 						<i class="bi bi-shield-lock"></i>
 					</div>
 				</div>
 				<div class="form-group position-relative has-icon-left mb-4">
-					{{form_widget(form.password.second, {'attr': {'class': 'form-control form-control-xl', 'placeholder':'Confirm Password', 'aria-describedby': 'inputGroupPrepend'}})}}
+					{{form_widget(form.password.second)}}
 					<div class="form-control-icon">
 						<i class="bi bi-shield-lock"></i>
 					</div>
@@ -42,44 +42,22 @@
 			<div id="auth-right"></div>
 		</div>
 	</div>
+
 	<script>
-	// Check if passwords match
-	$("#pwdId, #confirmPassword").on("keyup", function () {
-	if (
-		$("#user_password_first").val() != "" &&
-		$("#user_password_second").val() != "" &&
-		$("#user_password_second").val() == $("#user_password_second").val()
-	) {
-	}
-	});
-
-	// Example starter JavaScript for disabling form submissions if there are invalid fields
-	(function () {
-	"use strict";
-	window.addEventListener(
-		"load",
-		function () {
-		// Fetch all the forms we want to apply custom Bootstrap validation styles to
-		var forms = document.getElementsByClassName("needs-validation");
-		// Loop over them and prevent submission
-		var validation = Array.prototype.filter.call(forms, function (form) {
-			form.addEventListener(
-			"submit",
-			function (event) {
-				if (form.checkValidity() === false) {
-				event.preventDefault();
-				event.stopPropagation();
-				}
-				form.classList.add("was-validated");
-			},
-			false
-			);
+		const password = document.getElementById('user_password_first');
+		const confirmPassword = document.getElementById('user_password_second');
+		const valid = function (password, confirmPassword) {
+			if (confirmPassword.value == password.value) {
+				confirmPassword.setCustomValidity('');
+			} else {
+				confirmPassword.setCustomValidity("비밀번호가 다릅니다");
+			}
+		}
+		password.addEventListener("keyup", (event) => {
+			valid(password, confirmPassword)
 		});
-		},
-		false
-	);
-	})();
-
+		confirmPassword.addEventListener("keyup", (event) => {
+			valid(password, confirmPassword)
+		});
 	</script>
-
 {% endblock %}

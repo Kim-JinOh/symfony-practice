@@ -13,25 +13,37 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+    public function __construct(ValidationGroup) {
+        $this->var = $var;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', EmailType::class, [
-                'help' => 'Email'
+                'attr' => [
+                    'placeholder' => 'Email',
+                    'class'=> 'form-control form-control-xl'
+                ]
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'first_options'  => ['help' => 'Password'],
-                'second_options' => ['help' => 'Confirm Password'],
+                'first_options'  => ['attr' => [
+                    'placeholder' => 'Password',
+                    'class'=> 'form-control form-control-xl'
+                ]],
+                'second_options' =>  ['attr' => [
+                    'placeholder' => 'Confirm Password',
+                    'class'=> 'form-control form-control-xl'
+                ]],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'validation_groups' => User::class,
         ]);
     }
 }

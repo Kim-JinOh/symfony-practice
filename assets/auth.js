@@ -1,1 +1,1 @@
-import './mazer/scss/pages/auth.scss';
+import "./mazer/scss/pages/auth.scss";

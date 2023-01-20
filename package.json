@@ -29,6 +29,7 @@
     "@symfony/stimulus-bridge": "^3.2.1",
     "apexcharts": "^3.36.3",
     "core-js": "^3.27.1",
+    "jquery": "^3.6.3",
     "perfect-scrollbar": "^1.5.5",
     "webpack": "^5.75.0"
   }
