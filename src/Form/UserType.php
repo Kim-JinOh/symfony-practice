@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Validation\RegistrationValidationResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -13,10 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    public function __construct(
-        private RegistrationValidationResolver $registrationResolver
-    ) {
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,7 +24,7 @@ class UserType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => '비밀번호가 동일하지 않습니다.',
                 'required' => true,
                 'first_options'  => ['attr' => [
                     'placeholder' => 'Password',
@@ -46,6 +41,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            // 'validation_groups' => $this->registrationResolver,
         ]);
     }
 }

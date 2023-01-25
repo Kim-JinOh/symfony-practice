@@ -24,6 +24,7 @@ Encore
     .addEntry('mazer', './assets/bootstrap-template.js')
     .addEntry('main', './assets/main.js')
     .addEntry('auth', './assets/auth.js')
+    .addEntry('error', './assets/error.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

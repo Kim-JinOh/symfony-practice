@@ -44,7 +44,7 @@
 	</div>
 
 	<script>
-		const password = document.getElementById('user_password_first');
+		{# const password = document.getElementById('user_password_first');
 		const confirmPassword = document.getElementById('user_password_second');
 		const valid = function (password, confirmPassword) {
 			if (confirmPassword.value == password.value) {
@@ -58,6 +58,6 @@
 		});
 		confirmPassword.addEventListener("keyup", (event) => {
 			valid(password, confirmPassword)
-		});
+		}); #}
 	</script>
 {% endblock %}
