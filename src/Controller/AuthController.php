@@ -4,15 +4,21 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AuthController extends AbstractController
 {
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+    }
+
     #[Route('/login', name: 'login')]
     public function login(): Response
     {
@@ -22,18 +28,23 @@ class AuthController extends AbstractController
     }
 
     #[Route('/sign-up', name: 'sign-up')]
-    public function signUp(Request $request): Response
+    public function signUp(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                throw new BadRequestException("새로고침 후 다시 시도해주시기 바랍니다!");
+            }
             $user = $form->getData();
-        } elseif ($form->isSubmitted() && !$form->isValid()) {
-            $errors = $form->getErrors(true);
-            // throw new BadRequestException("새로고침 후 다시 시도해주시기 바랍니다!");
-            throw $this->createNotFoundException("새로고침 후 다시 시도해주시기 바랍니다!");
+            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         }
 
         return $this->render('auth/sign-up.html.twig', [
@@ -42,13 +53,9 @@ class AuthController extends AbstractController
         ]);
     }
 
-    #[Route('/registration', name:'registration')]
-    public function registration(Request $request, UserPasswordHasherInterface $passwordHasher)
+    #[Route('/find-password', name: 'find-password')]
+    public function FunctionName(): Response
     {
-        $user = new User();
-        $plaintextPassword = $user->getPassword();
-
-        $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-        $user->setPassword($hashedPassword);
+        return new Response('find password');
     }
 }

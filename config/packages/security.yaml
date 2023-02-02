@@ -2,6 +2,7 @@ security:
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
+        App\Entity\User: 'auto'
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
@@ -10,6 +11,9 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # users:
+        #     entity:
+        #         class: App\Entity\User
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
