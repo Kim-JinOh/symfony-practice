@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -19,6 +20,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'required' => true,
+                'invalid_message' => '이메일이 올바르지 않습니다.',
                 'attr' => [
                     'placeholder' => 'Email',
                     'class' => 'form-control form-control-xl'
@@ -65,7 +68,6 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            // 'validation_groups' => $this->registrationResolver,
         ]);
     }
 }

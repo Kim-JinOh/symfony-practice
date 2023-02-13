@@ -30,6 +30,7 @@ class AuthController extends AbstractController
     #[Route('/sign-up', name: 'sign-up')]
     public function signUp(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 

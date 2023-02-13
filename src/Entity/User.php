@@ -8,8 +8,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Validator as UserAssert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UserAssert\User]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -17,6 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: '이메일은 필수로 입력해야 합니다.')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
