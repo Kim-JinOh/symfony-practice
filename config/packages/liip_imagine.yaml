@@ -1,0 +1,31 @@
+liip_imagine:
+    resolvers:
+        default:
+            web_path: ~
+
+    filter_sets:
+        cache: ~
+
+        # the name of the "filter set"
+        inset_thumb:
+            # adjust the image quality to 75%
+            quality: 100
+
+            # list of transformations to apply (the "filters")
+            filters:
+
+                # 넓이 기준으로 비율에 맞게 resize
+                thumbnail: { size: [148, 32], mode: inset }
+            # post_processors:
+            #     my_custom_post_processor: { }
+
+        outbound_thumb:
+            quality: 100
+            filters: 
+                # size로 그냥 이미지 자름
+                thumbnail: { size: [148, 32], mode: outbound }
+
+
+when@dev:
+  web_profiler:
+    intercept_redirects: false
